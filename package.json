@@ -1,0 +1,48 @@
+{
+  "name": "horodator_v2",
+  "version": "1.0.0",
+  "description": "All in one",
+  "author": "Itokiana",
+  "build": {
+    "appId": "com.physalis-sbo.horodator"
+  },
+  "homepage": "./",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder -w"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "electron": "^2.0.0",
+    "electron-builder": "^22.3.2",
+    "wait-on": "^4.0.0"
+  },
+  "dependencies": {
+    "active-win": "^6.0.0",
+    "axios": "^0.19.2",
+    "connectivity": "^1.0.2",
+    "getmac": "^5.1.0",
+    "iohook": "^0.4.4",
+    "ip": "^1.1.5",
+    "jquery": "^3.4.1",
+    "js-base64": "^2.5.1",
+    "node-abi": "^2.14.0"
+  },
+  "iohook": {
+    "targets": [
+      "node-57",
+      "electron-57"
+    ],
+    "platforms": [
+      "win32",
+      "darwin",
+      "linux"
+    ],
+    "arches": [
+      "x64",
+      "ia32"
+    ]
+  }
+}
