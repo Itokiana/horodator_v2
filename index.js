@@ -4,6 +4,7 @@ const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Notification = electron.Notification;
+const activeWin = require('active-win');
 
 
 let mainWindow;
@@ -30,6 +31,13 @@ function createWindow() {
   hooking(mainWindow);
   inactivity(mainWindow)
   browser_hooking(mainWindow);
+
+  setInterval(() => {
+    (async () => {
+      console.log(await activeWin())
+      mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", JSON.stringify('+ JSON.stringify(await activeWin()) +') )') 
+    })();
+  }, 3000);
 
   setInterval(() => {
     try {

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "active-win": "^6.0.0",
+    "active-window": "^0.1.0",
     "axios": "^0.19.2",
     "connectivity": "^1.0.2",
     "getmac": "^5.1.0",

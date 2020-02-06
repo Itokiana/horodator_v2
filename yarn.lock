@@ -107,6 +107,11 @@ active-win@^6.0.0:
     ref-struct-napi "^1.1.0"
     ref-wchar-napi "^1.0.2"
 
+active-window@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/active-window/-/active-window-0.1.0.tgz#1b986b950293eb0577fb83966f44db62de1a7593"
+  integrity sha1-G5hrlQKT6wV3+4OWb0TbYt4adZM=
+
 ajv-keywords@^3.1.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.4.1.tgz#ef916e271c64ac12171fd8384eaae6b2345854da"

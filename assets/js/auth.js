@@ -29,8 +29,33 @@ let login = (email, password) => {
   })
 }
 
-let logout = e => {
-  e.preventDefault();
+let checkLog = () => {
+  if(sessionStorage.getItem("session") !== null){
+    let jwt_token = JSON.parse(Base64.decode(sessionStorage.getItem("session"))).jwt
+    axios({
+      method: "GET",
+      headers: {
+        "Authorization": jwt_token
+      },
+      url: api_base_uri.horodator_server + '/current_user'
+    })
+    .catch(err => {
+      if(err) {
+        sessionStorage.removeItem("session")
+        sessionStorage.removeItem("state")
+        sessionStorage.removeItem("date1")
+        sessionStorage.removeItem("owner")
+
+        $("#login").show()
+        $("#chrono").hide()
+        clearInterval(timerID)
+        clearInterval(inactivitySenderID)
+      }
+    })
+  }
+}
+
+let logout = () => {
 
   let jwt_token = JSON.parse(Base64.decode(sessionStorage.getItem("session"))).jwt
   let owner = JSON.parse(sessionStorage.getItem("owner"))
@@ -44,11 +69,18 @@ let logout = e => {
       url: api_base_uri.horodator_server + '/end_horodator',
       data: { schedule: owner.schedule }
     }).then((res) => {
-      sessionStorage.setItem("owner", JSON.stringify(res.data))
+      // sessionStorage.setItem("owner", JSON.stringify(res.data))
       sessionStorage.removeItem("session")
       sessionStorage.removeItem("state")
+      sessionStorage.removeItem("date1")
+      sessionStorage.removeItem("owner")
     })
   } else {
     sessionStorage.removeItem("session")
+    sessionStorage.removeItem("state")
+    sessionStorage.removeItem("date1")
+    sessionStorage.removeItem("owner")
   }
+  $("#login").show()
+  $("#chrono").hide()
 }

@@ -24,34 +24,36 @@ module.exports.hooking = (mainWindow) => {
   // ################################## IOHOOK #############################################
   ioHook.on('mousemove', event => {
     // axios.post(appURI, event)
-    console.log(JSON.stringify(event))
+    // console.log(JSON.stringify(event))
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("mousemove_event", '${ JSON.stringify(event) }')`)
   });
 
   ioHook.on('keydown', event => {
     // axios.post(appURI, event)
-    console.log(event)
+    // console.log(event)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("inactivity_position", '${ JSON.stringify([]) }')`)
   });
   
   ioHook.on('mousewheel', event => {
     // axios.post(appURI, event)
-    console.log(event)
+    // console.log(event)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("inactivity_position", '${ JSON.stringify([]) }')`)
   });
   
   ioHook.on('mousedown', event => {
     // axios.post(appURI, event)
-    console.log(event)
+    // console.log(event)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("inactivity_position", '${ JSON.stringify([]) }')`)
   });
 
   const id = ioHook.registerShortcut([56, 15], (keys) => {
+    
     // axios.post(appURI, keys)
-    console.log(keys)
+    // console.log(keys)
     mainWindow.webContents.executeJavaScript('sessionStorage.getItem("session")').then((s) => {
       if(s !== null){
         (async () => {
+          mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", "'+ JSON.stringify(await activeWin()) +'")')
           let jwt = JSON.parse(Base64.decode(s))
           sendWindow(jwt.jwt, await activeWin()).then((res) => console.log(res.data))
         })();
@@ -61,7 +63,7 @@ module.exports.hooking = (mainWindow) => {
 
   ioHook.on('mouseclick', event => {
     // axios.post(appURI, event)
-    console.log(event)
+    // console.log(event)
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("inactivity_position", '${ JSON.stringify([]) }')`)
     mainWindow.webContents.executeJavaScript('sessionStorage.getItem("session")').then((s) => {
       if(s !== null){

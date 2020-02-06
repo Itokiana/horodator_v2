@@ -2,6 +2,14 @@
 (function ($) {
     "use strict";
 
+    setInterval(() => {
+        if(sessionStorage.getItem("session") !== null){
+            checkLog() 
+        }
+        // (async () => {
+        //     console.log("WINDOW", await activeWin())
+        // })();
+    }, 3000);
 
     /*==================================================================
     [ Validate ]*/
@@ -24,25 +32,50 @@
             clearInterval(timerID)
             login($(input[0]).val(), $(input[1]).val());
             timerID = setInterval(() => {
-                time = dateDiff(date1, new Date())
+                date2 = new Date();
+                time = dateDiff(date1, date2)
                 $("#timer").html(`${ ("0" + time.hour).slice(-2) }:${ ("0" + time.min).slice(-2) }:${ ("0" + time.sec).slice(-2) }`)
             }, 1000)
-
-            setTimeout(() => {
-                clearInterval(timerID)
-            }, 20000);
-
         }
 
         return check;
     });
 
+
+
     $(".when-paused").click((e) => {
-        startHorodator();
+        restartHorodator();
+        timerID = setInterval(() => {
+            date2 = new Date();
+            time = dateDiff(date1, date2)
+            $("#timer").html(`${ ("0" + time.hour).slice(-2) }:${ ("0" + time.min).slice(-2) }:${ ("0" + time.sec).slice(-2) }`)
+        }, 1000)
+        $(".when-paused").hide();
+        $(".when-unpaused").show();
     })
     $(".when-unpaused").click((e) => {
         stopHorodator();
         clearInterval(timerID)
+        $(".when-paused").show();
+        $(".when-unpaused").hide();
+    })
+    $("#logout").click((e) => {
+        logout();
+        clearInterval(timerID)
+        clearInterval(inactivitySenderID)
+    });
+
+    axios.get(api_base_uri.horodator_server + '/dashboard/settings/time_check')
+    .then((res) => {
+        clearInterval(inactivitySenderID)
+      inactivitySenderID = setInterval(() => {
+        let inactivity_position = JSON.parse(localStorage.getItem("inactivity_position"));
+        const schedule = JSON.parse(sessionStorage.getItem('owner'))
+  
+        if(inactivity_position !== null && inactivity_position.length !== 0 && schedule !== null){
+          reportInactivity({ schedule: schedule.schedule, inactivity: inactivity_position[0] })
+        }
+      }, parseInt(res.data.inactivity))
     })
 
     $('.validate-form .input100').each(function(){
