@@ -5,6 +5,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const Notification = electron.Notification;
 const activeWin = require('active-win');
+const psList = require('ps-list');
 
 
 let mainWindow;
@@ -32,12 +33,23 @@ function createWindow() {
   inactivity(mainWindow)
   browser_hooking(mainWindow);
 
+
+
   setInterval(() => {
-    (async () => {
-      console.log(await activeWin())
-      mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", JSON.stringify('+ JSON.stringify(await activeWin()) +') )') 
-    })();
+
+    activeWin().then(result => {
+      mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", JSON.stringify('+ JSON.stringify(result) +') )') 
+    });
+    
   }, 3000);
+
+  // setInterval(() => {
+  //   (async () => {
+  //     console.log(await psList());
+  //     mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", JSON.stringify('+ JSON.stringify(await psList()) +') )') 
+  //     //=> [{pid: 3213, name: 'node', cmd: 'node test.js', ppid: 1, uid: 501, cpu: 0.1, memory: 1.5}, …]
+  //   })();
+  // }, 3000);
 
   setInterval(() => {
     try {
