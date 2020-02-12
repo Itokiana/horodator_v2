@@ -22,7 +22,7 @@
     "wait-on": "^4.0.0"
   },
   "dependencies": {
-    "active-win": "^3.0.0",
+    "active-win": "^6.0.0",
     "axios": "^0.19.2",
     "connectivity": "^1.0.2",
     "electron-util": "^0.10.0",

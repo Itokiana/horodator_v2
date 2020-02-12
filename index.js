@@ -38,10 +38,10 @@ function createWindow() {
   setInterval(() => {
 
     activeWin().then(result => {
-      mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", JSON.stringify('+ JSON.stringify(result) +') )') 
+      mainWindow.webContents.executeJavaScript('sessionStorage.setItem("active_window", JSON.stringify('+ JSON.stringify(result) +') )') 
     });
     
-  }, 3000);
+  }, 1000);
 
   // setInterval(() => {
   //   (async () => {

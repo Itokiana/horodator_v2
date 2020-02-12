@@ -50,6 +50,7 @@ let checkLog = () => {
         $("#chrono").hide()
         clearInterval(timerID)
         clearInterval(inactivitySenderID)
+        location.reload(true)
       }
     })
   }

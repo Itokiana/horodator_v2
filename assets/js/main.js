@@ -50,12 +50,14 @@
             time = dateDiff(date1, date2)
             $("#timer").html(`${ ("0" + time.hour).slice(-2) }:${ ("0" + time.min).slice(-2) }:${ ("0" + time.sec).slice(-2) }`)
         }, 1000)
+        sessionStorage.removeItem("state")
         $(".when-paused").hide();
         $(".when-unpaused").show();
     })
     $(".when-unpaused").click((e) => {
         stopHorodator();
-        clearInterval(timerID)
+        clearInterval(timerID);
+        sessionStorage.setItem("state", "pause")
         $(".when-paused").show();
         $(".when-unpaused").hide();
     })
@@ -63,6 +65,8 @@
         logout();
         clearInterval(timerID)
         clearInterval(inactivitySenderID)
+        sessionStorage.removeItem("state")
+        location.reload(true)
     });
 
     axios.get(api_base_uri.horodator_server + '/dashboard/settings/time_check')

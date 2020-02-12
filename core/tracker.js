@@ -52,11 +52,15 @@ module.exports.hooking = (mainWindow) => {
     // console.log(keys)
     mainWindow.webContents.executeJavaScript('sessionStorage.getItem("session")').then((s) => {
       if(s !== null){
-        (async () => {
-          mainWindow.webContents.executeJavaScript('sessionStorage.setItem("window", "'+ JSON.stringify(await activeWin()) +'")')
-          let jwt = JSON.parse(Base64.decode(s))
-          sendWindow(jwt.jwt, await activeWin()).then((res) => console.log(res.data))
-        })();
+        
+        mainWindow.webContents.executeJavaScript('sessionStorage.getItem("active_window")').then((aw) => {
+          if(aw !== null){
+            let jwt = JSON.parse(Base64.decode(s))
+            let active_win = JSON.parse(aw)
+            sendWindow(jwt.jwt, active_win).then((res) => console.log(res.data))
+          }
+        })
+
       }
     })
   });
@@ -67,10 +71,13 @@ module.exports.hooking = (mainWindow) => {
     mainWindow.webContents.executeJavaScript(`localStorage.setItem("inactivity_position", '${ JSON.stringify([]) }')`)
     mainWindow.webContents.executeJavaScript('sessionStorage.getItem("session")').then((s) => {
       if(s !== null){
-        (async () => {
-          let jwt = JSON.parse(Base64.decode(s))
-          sendWindow(jwt.jwt, await activeWin()).then((res) => console.log(res.data))
-        })();
+        mainWindow.webContents.executeJavaScript('sessionStorage.getItem("active_window")').then((aw) => {
+          if(aw !== null){
+            let jwt = JSON.parse(Base64.decode(s))
+            let active_win = JSON.parse(aw)
+            sendWindow(jwt.jwt, active_win).then((res) => console.log(res.data))
+          }
+        })
       }
     })
   });
